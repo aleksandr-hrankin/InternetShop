@@ -1,4 +1,4 @@
-package model;
+package com.internet.shop.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,13 +7,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Order {
+public class ShoppingCart {
     private Long id;
     private List<Product> products;
     private Long userId;
 
-    public Order(Long id, Long userId) {
-        this.id = id;
+    public ShoppingCart(Long userId) {
         this.userId = userId;
         products = new ArrayList<>();
     }
