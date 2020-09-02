@@ -1,20 +1,20 @@
 package model;
 
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
-@RequiredArgsConstructor
 @Getter
 @Setter
 public class Order {
-    @NonNull
     private Long id;
-    private List<Product> products = new ArrayList<>();
-    @NonNull
+    private List<Product> products;
     private Long userId;
+
+    public Order(Long id, Long userId) {
+        this.id = id;
+        this.userId = userId;
+        products = new ArrayList<>();
+    }
 }
