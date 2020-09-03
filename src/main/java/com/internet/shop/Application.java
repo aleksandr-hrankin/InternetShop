@@ -10,15 +10,18 @@ public class Application {
 
     public static void main(String[] args) {
         ProductService productService = (ProductService) injector.getInstance(ProductService.class);
-        productService.create(new Product("iPhone", 1000));
-        productService.create(new Product("xBox", 2000));
-        productService.create(new Product("ps4", 1000));
+        Product iphone = new Product("iPhone", 1000);
+        Product xbox = new Product("xBox", 2000);
+        Product ps4 = new Product("ps4", 1000);
+
+        productService.create(iphone);
+        productService.create(xbox);
+        productService.create(ps4);
         List<Product> products = productService.getAll();
 
         System.out.println("Before changes");
         products.forEach(System.out::println);
-        productService.delete(products.get(0).getId());
-        Product xbox = products.get(0);
+        productService.delete(iphone.getId());
         xbox.setName("xbox360");
         xbox.setPrice(2500);
         productService.update(xbox);
