@@ -5,7 +5,7 @@ import com.internet.shop.model.Product;
 import com.internet.shop.service.ProductService;
 import java.util.List;
 
-public class Main {
+public class Application {
     private static Injector injector = Injector.getInstance("com.internet.shop");
 
     public static void main(String[] args) {
