@@ -1,10 +1,7 @@
 package com.internet.shop.model;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-
-import com.internet.shop.One;
 import lombok.Getter;
 import lombok.Setter;
 
