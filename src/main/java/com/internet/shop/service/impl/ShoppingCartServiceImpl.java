@@ -39,9 +39,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public ShoppingCart getByUserId(Long userId) {
-        return shoppingCartDao.getAll().stream()
-                .filter(cart -> cart.getUserId().equals(userId))
-                .findFirst().get();
+        return shoppingCartDao.getByUserId(userId);
     }
 
     @Override

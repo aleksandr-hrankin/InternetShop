@@ -11,6 +11,8 @@ public interface ShoppingCartDao {
 
     List<ShoppingCart> getAll();
 
+    ShoppingCart getByUserId(Long userId);
+
     ShoppingCart update(ShoppingCart shoppingCart);
 
     boolean delete(Long id);
