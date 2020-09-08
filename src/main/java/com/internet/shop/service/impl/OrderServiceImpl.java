@@ -32,7 +32,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order create(Order item) {
-        return null;
+        return orderDao.create(item);
     }
 
     @Override
