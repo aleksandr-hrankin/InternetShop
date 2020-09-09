@@ -2,13 +2,9 @@ package com.internet.shop.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
-@Getter
-@Setter
-@ToString
+@Data
 public class ShoppingCart {
     private Long id;
     private List<Product> products;
