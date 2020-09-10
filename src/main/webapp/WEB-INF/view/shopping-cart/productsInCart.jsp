@@ -8,12 +8,12 @@
 <h2>Your Shopping Cart</h2>
 <a href="${pageContext.request.contextPath}/">Main page</a>
 <table border="1">
-    <th>
+    <tr>
         <td>id</td>
         <td>name</td>
         <td>price</td>
         <td></td>
-    </th>
+    </tr>
     <c:forEach var="product" items="${shoppingCart.products}">
         <tr>
             <td>${product.id}</td>
@@ -24,6 +24,9 @@
             </td>
         </tr>
     </c:forEach>
-</table>
+    </table>
+<form action="${pageContext.request.contextPath}/shopping-cart/complete-order?cartId=${shoppingCart.id}" method="post">
+    <input type="submit" value="checkout">
+</form>
 </body>
 </html>
