@@ -68,15 +68,6 @@
         <url-pattern>/storage/products/delete</url-pattern>
     </servlet-mapping>
 
-    <servlet>
-        <servlet-name>addProductInCart</servlet-name>
-        <servlet-class>com.internet.shop.controller.cart.AddProductInCartController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>addProductInCart</servlet-name>
-        <url-pattern>/shopping-carts/products/add</url-pattern>
-    </servlet-mapping>
-
     <!-- shopping cart ********************************************************************************** -->
     <servlet>
         <servlet-name>getShoppingCart</servlet-name>
@@ -85,6 +76,15 @@
     <servlet-mapping>
         <servlet-name>getShoppingCart</servlet-name>
         <url-pattern>/shopping-carts/products</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>addProductToCart</servlet-name>
+        <servlet-class>com.internet.shop.controller.cart.AddProductToCartController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>addProductToCart</servlet-name>
+        <url-pattern>/shopping-carts/products/add</url-pattern>
     </servlet-mapping>
 
     <servlet>
