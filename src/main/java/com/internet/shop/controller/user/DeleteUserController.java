@@ -24,6 +24,5 @@ public class DeleteUserController extends HttpServlet {
         ShoppingCart shoppingCart = shoppingCartService.getByUserId(id);
         shoppingCartService.delete(shoppingCart.getId());
         resp.sendRedirect(req.getContextPath() + "/users/all");
-//        req.getRequestDispatcher("/WEB-INF/view/user/users.jsp").forward(req, resp);
     }
 }
