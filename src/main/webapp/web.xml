@@ -79,7 +79,7 @@
 
     <servlet>
         <servlet-name>addProduct</servlet-name>
-        <servlet-class>com.internet.shop.controller.product.AddProductToStorageController</servlet-class>
+        <servlet-class>com.internet.shop.controller.product.AddProductController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>addProduct</servlet-name>
@@ -88,7 +88,7 @@
 
     <servlet>
         <servlet-name>deleteProduct</servlet-name>
-        <servlet-class>com.internet.shop.controller.product.DeleteProductFromStorageController</servlet-class>
+        <servlet-class>com.internet.shop.controller.product.DeleteProductController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>deleteProduct</servlet-name>
