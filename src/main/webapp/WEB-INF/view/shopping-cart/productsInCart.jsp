@@ -25,7 +25,7 @@
         </tr>
     </c:forEach>
     </table>
-<form action="${pageContext.request.contextPath}/shopping-cart/complete-order?cartId=${shoppingCart.id}" method="post">
+<form action="${pageContext.request.contextPath}/shopping-cart/complete-order" method="post">
     <input type="submit" value="checkout">
 </form>
 </body>

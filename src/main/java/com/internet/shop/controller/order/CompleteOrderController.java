@@ -21,8 +21,7 @@ public class CompleteOrderController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        Long cartId = Long.parseLong(req.getParameter("cartId"));
-        ShoppingCart shoppingCart = shoppingCartService.get(cartId);
+        ShoppingCart shoppingCart = shoppingCartService.getByUserId(USER_ID);
         Order order = orderService.completeOrder(shoppingCart);
         order.setUserId(shoppingCart.getUserId());
         resp.sendRedirect(req.getContextPath() + "/user/orders");
