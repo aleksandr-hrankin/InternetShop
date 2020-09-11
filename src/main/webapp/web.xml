@@ -37,7 +37,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>storage</servlet-name>
-        <url-pattern>/storage/products</url-pattern>
+        <url-pattern>/admin/products</url-pattern>
     </servlet-mapping>
 
     <!-- order *************************************************************************************** -->
@@ -83,7 +83,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>addProduct</servlet-name>
-        <url-pattern>/storage/products/add</url-pattern>
+        <url-pattern>/admin/products/add</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -92,7 +92,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>deleteProduct</servlet-name>
-        <url-pattern>/storage/products/delete</url-pattern>
+        <url-pattern>/admin/products/delete</url-pattern>
     </servlet-mapping>
 
     <!-- shopping cart ********************************************************************************** -->

@@ -10,7 +10,7 @@
     <br>
     <a href="${pageContext.request.contextPath}/users/all">All users</a>
     <br>
-    <a href="${pageContext.request.contextPath}/storage/products">Storage</a>
+    <a href="${pageContext.request.contextPath}/admin/products">Storage</a>
     <br>
     <a href="${pageContext.request.contextPath}/orders/all">Order panel</a>
     <hr>

@@ -8,7 +8,7 @@
 <h2>Storage</h2>
 <a href="${pageContext.request.contextPath}/">Main page</a>
 <p>Add new product:</p>
-<form action="${pageContext.request.contextPath}/storage/products/add" method="post">
+<form action="${pageContext.request.contextPath}/admin/products/add" method="post">
     <label>
         name: <input type="text" name="productName">
     </label>
@@ -31,7 +31,7 @@
             <td>${product.name}</td>
             <td>${product.price}</td>
             <td>
-                <a href="${pageContext.request.contextPath}/storage/products/delete?productId=${product.id}">delete</a>
+                <a href="${pageContext.request.contextPath}/admin/products/delete?productId=${product.id}">delete</a>
             </td>
         </tr>
     </c:forEach>
