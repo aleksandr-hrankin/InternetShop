@@ -33,7 +33,7 @@
 
     <servlet>
         <servlet-name>storage</servlet-name>
-        <servlet-class>com.internet.shop.controller.storage.GetAllProductsFromStorage</servlet-class>
+        <servlet-class>com.internet.shop.controller.storage.ProductPanel</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>storage</servlet-name>
