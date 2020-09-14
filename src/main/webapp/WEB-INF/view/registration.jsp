@@ -5,7 +5,6 @@
 </head>
 <body>
 <h2>Registration</h2>
-<a href="${pageContext.request.contextPath}/">Main page</a>
 <h4>${errorMessage}</h4>
 <form action="${pageContext.request.contextPath}/registration" method="post">
      <label>

@@ -15,8 +15,6 @@
     <a href="${pageContext.request.contextPath}/orders/all">Order panel</a>
     <hr>
     <p>user panel</p>
-    <a href="${pageContext.request.contextPath}/registration">Registration</a>
-    <br>
     <a href="${pageContext.request.contextPath}/products/all">Product catalog</a>
     <br>
     <a href="${pageContext.request.contextPath}/shopping-carts/products">Shopping Cart</a>
