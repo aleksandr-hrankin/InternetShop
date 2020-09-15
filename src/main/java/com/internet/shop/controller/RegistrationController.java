@@ -27,17 +27,16 @@ public class RegistrationController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        String userName = req.getParameter("userName");
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         String repeatPassword = req.getParameter("repeat-password");
 
         if (password.equals(repeatPassword)) {
-            User user = new User(userName, login, password);
+            User user = new User(login, password);
             userService.create(user);
             ShoppingCart shoppingCart = new ShoppingCart(user.getId());
             shoppingCartService.create(shoppingCart);
-            resp.sendRedirect(req.getContextPath() + "/");
+            resp.sendRedirect(req.getContextPath() + "/login");
         } else {
             req.setAttribute("errorMessage", "Your password and repeat password aren't the same.");
             req.getRequestDispatcher("/WEB-INF/view/registration.jsp").forward(req, resp);

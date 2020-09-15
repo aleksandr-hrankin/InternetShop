@@ -30,7 +30,7 @@ public class InjectDataController extends HttpServlet {
         productService.create(new Product("Sony Playstation 4", 520.00));
         productService.create(new Product("Samsung A50", 300.00));
 
-        User userBob = new User("Bob", "bob-the-best", "bob123");
+        User userBob = new User("Bob", "1", "1");
         User userAlice = new User("Alice", "mis-alice", "12alice12");
         userService.create(userBob);
         userService.create(userAlice);
