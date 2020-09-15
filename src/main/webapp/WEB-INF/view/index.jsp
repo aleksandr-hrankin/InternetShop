@@ -1,10 +1,17 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<style><%@include file="../../resources/css/style.css"%></style>
+
 <html>
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <title>Internet Shop</title>
 </head>
 <body>
-    <h2>Main page</h2>
+
+    <%@include file="header.jsp"%>
+
     <p>admin panel</p>
     <a href="${pageContext.request.contextPath}/inject-data">Inject test data into the DB</a>
     <br>
@@ -14,11 +21,7 @@
     <br>
     <a href="${pageContext.request.contextPath}/orders/all">Order panel</a>
     <hr>
-    <p>user panel</p>
-    <a href="${pageContext.request.contextPath}/products/all">Product catalog</a>
-    <br>
-    <a href="${pageContext.request.contextPath}/shopping-carts/products">Shopping Cart</a>
-    <br>
-    <a href="${pageContext.request.contextPath}/user/orders">Orders</a>
+
+   <script src="https://kit.fontawesome.com/2be77622bb.js" crossorigin="anonymous"></script>
 </body>
 </html>

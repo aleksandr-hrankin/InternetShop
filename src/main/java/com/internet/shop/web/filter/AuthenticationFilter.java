@@ -3,6 +3,8 @@ package com.internet.shop.web.filter;
 import com.internet.shop.lib.Injector;
 import com.internet.shop.service.interfaces.UserService;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -16,10 +18,13 @@ public class AuthenticationFilter implements Filter {
     private static final String USER_ID = "user_id";
     private static final Injector injector = Injector.getInstance("com.internet.shop");
     private UserService userService = (UserService) injector.getInstance(UserService.class);
+    private Set<String> urls = new HashSet<>();
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-
+        urls.add("/login");
+        urls.add("/registration");
+        urls.add("/");
     }
 
     @Override
@@ -31,7 +36,7 @@ public class AuthenticationFilter implements Filter {
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
 
         String url = req.getServletPath();
-        if (url.equals("/login") || url.equals("/registration")) {
+        if (urls.contains(url)) {
             filterChain.doFilter(req, resp);
             return;
         }
