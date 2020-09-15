@@ -5,6 +5,7 @@ import com.internet.shop.lib.Inject;
 import com.internet.shop.lib.Service;
 import com.internet.shop.model.User;
 import com.internet.shop.service.interfaces.UserService;
+import java.util.Optional;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
@@ -13,10 +14,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public User login(String login, String password) throws AuthenticationException {
-        User userFromDb = userService.findByLogin(login).orElseThrow(() ->
-                new AuthenticationException("Incorrect login or password"));
-        if (userFromDb.getPassword().equals(password)) {
-            return userFromDb;
+        Optional<User> optionalUser = userService.findByLogin(login);
+        if (optionalUser.isPresent() && optionalUser.get().getPassword().equals(password)) {
+            return optionalUser.get();
         }
         throw new AuthenticationException("Incorrect login or password");
     }
