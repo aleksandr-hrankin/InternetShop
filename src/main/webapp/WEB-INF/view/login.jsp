@@ -3,7 +3,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <title>Registration</title>
+    <title>Authorization</title>
 </head>
 <body>
 <div style="padding: 30px 10%">
@@ -16,7 +16,7 @@
                     </a>
                 </div>
                 <div class="text-center">
-                    <h1>Sign up</h1>
+                    <h1>Sign in</h1>
                 </div>
                 <c:if test="${not empty errorMessage}">
                     <div>
@@ -26,21 +26,23 @@
 
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <form action="${pageContext.request.contextPath}/registration" method="post">
+                        <form action="${pageContext.request.contextPath}/login" method="post">
                             <div class="form-group">
-                                <label for="exampleInputLogin0">Login</label>
-                                <input type="text" class="form-control" id="exampleInputLogin0" name="login" minlength="1">
+                                <label for="exampleInputLogin1">Login</label>
+                                <input type="text" class="form-control" id="exampleInputLogin1" name="login" minlength="1">
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputLogin1">Password</label>
-                                <input type="text" class="form-control" id="exampleInputLogin1" name="password" minlength="1">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">Repeat Password</label>
-                                <input type="password" class="form-control" id="exampleInputPassword1" name="repeat-password" minlength="1">
+                                <label for="exampleInputPassword1">Password</label>
+                                <input type="password" class="form-control" id="exampleInputPassword1" name="password"minlength="1">
                             </div>
                             <button type="submit" class="btn btn-success btn-lg btn-block">Sign in</button>
                         </form>
+                    </div>
+                </div>
+
+                <div class="well well-sm">
+                    <div class="text-center">
+                        <a href="${pageContext.request.contextPath}/registration">Sign up</a>
                     </div>
                 </div>
             </div>

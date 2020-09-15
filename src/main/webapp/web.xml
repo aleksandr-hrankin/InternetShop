@@ -13,6 +13,12 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>/resources/*</url-pattern>
+    </servlet-mapping>
+
+    <!-- auth/reg ********************************************************************* -->
     <servlet>
         <servlet-name>registration</servlet-name>
         <servlet-class>com.internet.shop.controller.RegistrationController</servlet-class>
@@ -20,6 +26,15 @@
     <servlet-mapping>
         <servlet-name>registration</servlet-name>
         <url-pattern>/registration</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>login</servlet-name>
+        <servlet-class>com.internet.shop.controller.LoginController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>login</servlet-name>
+        <url-pattern>/login</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -40,7 +55,7 @@
         <url-pattern>/admin/products</url-pattern>
     </servlet-mapping>
 
-    <!-- order *************************************************************************************** -->
+    <!-- order *********************************************************************** -->
     <servlet>
         <servlet-name>getUserOrders</servlet-name>
         <servlet-class>com.internet.shop.controller.order.GetUserOrdersController</servlet-class>
@@ -67,7 +82,7 @@
         <servlet-name>deleteOrder</servlet-name>
         <url-pattern>/orders/delete</url-pattern>
     </servlet-mapping>
-    <!-- product *************************************************************************************** -->
+    <!-- product ********************************************************************** -->
     <servlet>
         <servlet-name>getAllProducts</servlet-name>
         <servlet-class>com.internet.shop.controller.product.GetAllProductsController</servlet-class>
@@ -95,7 +110,7 @@
         <url-pattern>/admin/products/delete</url-pattern>
     </servlet-mapping>
 
-    <!-- shopping cart ********************************************************************************** -->
+    <!-- shopping cart ***************************************************************** -->
     <servlet>
         <servlet-name>getShoppingCart</servlet-name>
         <servlet-class>com.internet.shop.controller.cart.GetShoppingCartController</servlet-class>
@@ -132,7 +147,7 @@
         <url-pattern>/shopping-cart/complete-order</url-pattern>
     </servlet-mapping>
 
-    <!-- user *************************************************************************************** -->
+    <!-- user **************************************************************************** -->
     <servlet>
         <servlet-name>getAllUsers</servlet-name>
         <servlet-class>com.internet.shop.controller.user.GetAllUsersController</servlet-class>
@@ -150,4 +165,14 @@
         <servlet-name>deleteUser</servlet-name>
         <url-pattern>/users/delete</url-pattern>
     </servlet-mapping>
+
+    <!-- filter **************************************************************************** -->
+    <filter>
+        <filter-name>authenticationFilter</filter-name>
+        <filter-class>com.internet.shop.web.filter.AuthenticationFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>authenticationFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 </web-app>
