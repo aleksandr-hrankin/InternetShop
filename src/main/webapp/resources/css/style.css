@@ -1,26 +1,11 @@
-* {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100vh;
 }
-
-.nav-link {
-    color: black;
-    font-weight: 600;
-}
-
-footer {
-    background-color: #f0f0f0;
-    padding: 40px 0;
-    color: black;
-}
-
-.footer-left a {
-    color: black;
-    margin-right: 20px;
-}
-
-.footer-right a {
-    color: #626262;
-    margin-left: 20px;
+.content {
+    display: flex;
+    flex-grow: 1;
+    padding: 86px 0 30px;
 }

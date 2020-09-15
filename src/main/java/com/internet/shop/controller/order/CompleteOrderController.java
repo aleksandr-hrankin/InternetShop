@@ -19,7 +19,7 @@ public class CompleteOrderController extends HttpServlet {
     private OrderService orderService = (OrderService) injector.getInstance(OrderService.class);
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         Long userId = (Long) req.getSession().getAttribute(USER_ID);
         ShoppingCart shoppingCart = shoppingCartService.getByUserId(userId);
