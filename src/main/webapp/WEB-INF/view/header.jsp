@@ -27,43 +27,35 @@
                             <i class="fas fa-home"> Home</i>
                         </a>
                     </li>
-<%--                    <c:if test="${not empty sessionScope.user_id}">--%>
-<%--                        <c:forEach var="role" items="${sessionScope.user_role}">--%>
-<%--                            <c:choose>--%>
-<%--                                <c:when test="${role == 'ADMIN'}">--%>
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link pr-4" href="#" id="navbarDropdown" role="button"
-                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-user-shield"> Admin Panel <i class="fas fa-caret-down"></i></i>
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            <a class="dropdown-item"
-                                               href="${pageContext.request.contextPath}/admin/products">Products</a>
-                                            <a class="dropdown-item"
-                                               href="${pageContext.request.contextPath}/users/all">Users</a>
-                                            <a class="dropdown-item"
-                                               href="${pageContext.request.contextPath}/orders/all">Orders</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item"
-                                               href="${pageContext.request.contextPath}/inject-data">Inject</a>
-                                        </div>
-                                    </li>
-<%--                                </c:when>--%>
-<%--                                <c:when test="${role == 'USER'}">--%>
-                                        <li class="nav-item">
-                                            <a class="nav-link pr-4" href="${pageContext.request.contextPath}/shopping-carts/products">
-                                                <i class="fas fa-shopping-cart"> Cart</i>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link pr-4" href="${pageContext.request.contextPath}/user/orders">
-                                                <i class="fas fa-box"> Orders</i>
-                                            </a>
-                                        </li>
-<%--                                </c:when>--%>
-<%--                            </c:choose>--%>
-<%--                        </c:forEach>--%>
-<%--                    </c:if>--%>
+                    <c:if test="${not empty sessionScope.user_id}">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link pr-4" href="#" id="navbarDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-user-shield"> Admin Panel <i class="fas fa-caret-down"></i></i>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item"
+                                   href="${pageContext.request.contextPath}/admin/products">Products</a>
+                                <a class="dropdown-item"
+                                   href="${pageContext.request.contextPath}/users/all">Users</a>
+                                <a class="dropdown-item"
+                                   href="${pageContext.request.contextPath}/orders/all">Orders</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item"
+                                   href="${pageContext.request.contextPath}/inject-data">Inject</a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link pr-4" href="${pageContext.request.contextPath}/shopping-carts/products">
+                                <i class="fas fa-shopping-cart"> Cart</i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link pr-4" href="${pageContext.request.contextPath}/user/orders">
+                                <i class="fas fa-box"> Orders</i>
+                            </a>
+                        </li>
+                    </c:if>
                     <li class="nav-item">
                         <a class="nav-link pr-4" href="${pageContext.request.contextPath}/products/all">
                             <i class="fas fa-carrot"> Products</i>
