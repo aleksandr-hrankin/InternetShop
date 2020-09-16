@@ -4,6 +4,6 @@
     <title>Access Denied</title>
 </head>
 <body>
-<i class="fas fa-lock">Lock</i>
+<img src="${pageContext.request.contextPath}/resources/img/lock-box.png" alt="lock-box">
 </body>
 </html>
