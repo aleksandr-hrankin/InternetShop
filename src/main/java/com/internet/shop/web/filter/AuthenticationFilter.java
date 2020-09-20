@@ -22,9 +22,11 @@ public class AuthenticationFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
+        urls.add("/");
         urls.add("/login");
         urls.add("/registration");
-        urls.add("/");
+        urls.add("/products/all");
+        urls.add("/inject-data");
     }
 
     @Override
@@ -42,7 +44,7 @@ public class AuthenticationFilter implements Filter {
         }
 
         Long userId = (Long) req.getSession().getAttribute(USER_ID);
-        if (userId == null || userService.get(userId) == null) {
+        if (userId == null) {
             resp.sendRedirect("/login");
             return;
         }
