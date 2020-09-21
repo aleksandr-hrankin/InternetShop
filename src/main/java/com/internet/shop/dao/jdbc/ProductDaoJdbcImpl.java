@@ -17,28 +17,29 @@ import java.util.Optional;
 @Dao
 public class ProductDaoJdbcImpl implements ProductDao {
     @Override
-    public Product create(Product item) {
-        String query = "INSERT INTO products (name, price) VALUES (?, ?)";
+    public Product create(Product product) {
+        String query = "INSERT INTO products (name, price) VALUES (?, ?);";
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query,
                     Statement.RETURN_GENERATED_KEYS);
-            statement.setString(1, item.getName());
-            statement.setDouble(2, item.getPrice());
+            statement.setString(1, product.getName());
+            statement.setDouble(2, product.getPrice());
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {
-                item.setId(resultSet.getLong(1));
+                product.setId(resultSet.getLong(1));
             }
-            return item;
+            return product;
         } catch (SQLException e) {
-            throw new DataProcessingException("Product not created", e);
+            throw new DataProcessingException("Creation product with ID"
+                    + product.getId() + "failed", e);
         }
     }
 
     @Override
     public Optional<Product> get(Long id) {
         Product product = null;
-        String query = "SELECT * FROM products WHERE id = ?";
+        String query = "SELECT * FROM products WHERE id = ? AND deleted = FALSE;";
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setLong(1, id);
@@ -54,7 +55,7 @@ public class ProductDaoJdbcImpl implements ProductDao {
 
     @Override
     public List<Product> getAll() {
-        String query = "SELECT * FROM products;";
+        String query = "SELECT * FROM products WHERE deleted = FALSE;";
         List<Product> products = new ArrayList<>();
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query);
@@ -70,31 +71,30 @@ public class ProductDaoJdbcImpl implements ProductDao {
     }
 
     @Override
-    public Product update(Product item) {
-        String query = "UPDATE products SET name = ?, price = ? WHERE id = ?";
+    public Product update(Product product) {
+        String query = "UPDATE products SET name = ?, price = ? WHERE id = ? AND deleted = FALSE;";
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, item.getName());
-            statement.setDouble(2, item.getPrice());
-            statement.setLong(3, item.getId());
+            statement.setString(1, product.getName());
+            statement.setDouble(2, product.getPrice());
+            statement.setLong(3, product.getId());
             statement.executeUpdate();
-            return item;
+            return product;
         } catch (SQLException e) {
-            throw new DataProcessingException("Failed to update product from ID "
-                    + item.getId(), e);
+            throw new DataProcessingException("Failed to update product with ID "
+                    + product.getId(), e);
         }
     }
 
     @Override
     public boolean delete(Long id) {
-        String query = "UPDATE products SET deleted = 1 WHERE id = ?";
+        String query = "UPDATE products SET deleted = TRUE WHERE id = ?;";
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setLong(1, id);
-            int i = statement.executeUpdate();
-            return i == 1;
+            return statement.executeUpdate() == 1;
         } catch (SQLException e) {
-            throw new DataProcessingException("Failed to delete product from ID " + id, e);
+            throw new DataProcessingException("Failed to delete product with ID " + id, e);
         }
     }
 
