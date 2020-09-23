@@ -26,21 +26,21 @@ public class InjectDataController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        productService.create(new Product("iPhone X", 700.00));
-        productService.create(new Product("iPhone 7", 500.00));
-        productService.create(new Product("xBox 360", 480.00));
-        productService.create(new Product("Sony Playstation 4", 520.00));
-        productService.create(new Product("Samsung A50", 300.00));
-
-        User userBob = new User("Bob", "admin", "1");
-        userBob.setRoles(Set.of(Role.of("ADMIN")));
-        User userAlice = new User("Alice", "user", "1");
-        userService.create(userBob);
-        userAlice.setRoles(Set.of(Role.of("USER")));
-        userService.create(userAlice);
-
-        shoppingCartService.create(new ShoppingCart(userBob.getId()));
-        shoppingCartService.create(new ShoppingCart(userAlice.getId()));
+//        productService.create(new Product("iPhone X", 700.00));
+//        productService.create(new Product("iPhone 7", 500.00));
+//        productService.create(new Product("xBox 360", 480.00));
+//        productService.create(new Product("Sony Playstation 4", 520.00));
+//        productService.create(new Product("Samsung A50", 300.00));
+//
+//        User userBob = new User("Bob", "admin", "1");
+//        userBob.setRoles(Set.of(Role.of("ADMIN")));
+//        User userAlice = new User("Alice", "user", "1");
+//        userService.create(userBob);
+//        userAlice.setRoles(Set.of(Role.of("USER")));
+//        userService.create(userAlice);
+//
+//        shoppingCartService.create(new ShoppingCart(userBob.getId()));
+//        shoppingCartService.create(new ShoppingCart(userAlice.getId()));
 
         req.getRequestDispatcher("/WEB-INF/view/injector/InjectData.jsp").forward(req, resp);
     }

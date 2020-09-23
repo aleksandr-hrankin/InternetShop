@@ -38,36 +38,36 @@ public class ProductDaoJdbcImpl implements ProductDao {
 
     @Override
     public Optional<Product> get(Long id) {
-        Product product = null;
-        String query = "SELECT * FROM products WHERE id = ? AND deleted = FALSE;";
+        String query = "SELECT * FROM products WHERE id_product = ? AND deleted = FALSE;";
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
+            Product product = null;
             while (resultSet.next()) {
                 product = getProductFromResultSet(resultSet);
             }
+            return Optional.ofNullable(product);
         } catch (SQLException e) {
             throw new DataProcessingException("Product with ID" + id + " not found", e);
         }
-        return Optional.ofNullable(product);
     }
 
     @Override
     public List<Product> getAll() {
         String query = "SELECT * FROM products WHERE deleted = FALSE;";
-        List<Product> products = new ArrayList<>();
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
+            List<Product> products = new ArrayList<>();
             while (resultSet.next()) {
                 Product product = getProductFromResultSet(resultSet);
                 products.add(product);
             }
+            return products;
         } catch (SQLException e) {
             throw new DataProcessingException("Could not get the list of products", e);
         }
-        return products;
     }
 
     @Override
@@ -99,7 +99,7 @@ public class ProductDaoJdbcImpl implements ProductDao {
     }
 
     private Product getProductFromResultSet(ResultSet resultSet) throws SQLException {
-        Long id = resultSet.getLong("id");
+        Long id = resultSet.getLong("id_product");
         String name = resultSet.getString("name");
         double price = resultSet.getDouble("price");
         boolean deleted = resultSet.getBoolean("deleted");

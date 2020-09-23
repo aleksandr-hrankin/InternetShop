@@ -2,9 +2,11 @@ package com.internet.shop.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class Role {
     private Long id;
     private RoleName roleName;
@@ -18,7 +20,7 @@ public class Role {
     }
 
     public enum RoleName {
-        USER,
-        ADMIN
+        ADMIN,
+        USER
     }
 }
