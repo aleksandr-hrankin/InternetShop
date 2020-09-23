@@ -3,7 +3,6 @@ package com.internet.shop.model;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Data;
-import lombok.Getter;
 
 @Data
 public class ShoppingCart {
@@ -12,15 +11,12 @@ public class ShoppingCart {
     private List<Product> products;
     private boolean deleted;
 
-    public ShoppingCart(Long userId) {
-        this.products = new ArrayList<>();
-        this.userId = userId;
+    public ShoppingCart() {
     }
 
-    public ShoppingCart(Long id, Long userId, List<Product> products) {
-        this.id = id;
+    public ShoppingCart(Long userId) {
         this.userId = userId;
-        this.products = products;
+        this.products = new ArrayList<>();
     }
 
     public ShoppingCart(Long id, Long userId, List<Product> products, boolean deleted) {

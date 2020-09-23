@@ -11,9 +11,12 @@ public class Order {
     private List<Product> products;
     private boolean deleted;
 
+    public Order() {
+    }
+
     public Order(Long userId) {
-        products = new ArrayList<>();
         this.userId = userId;
+        this.products = new ArrayList<>();
     }
 
     public Order(Long id, Long userId, List<Product> products, boolean deleted) {

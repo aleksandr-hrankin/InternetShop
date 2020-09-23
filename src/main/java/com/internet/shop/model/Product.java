@@ -9,6 +9,9 @@ public class Product {
     private double price;
     private boolean deleted;
 
+    public Product() {
+    }
+
     public Product(String name, double price) {
         this.name = name;
         this.price = price;
@@ -20,5 +23,4 @@ public class Product {
         this.price = price;
         this.deleted = deleted;
     }
-
 }

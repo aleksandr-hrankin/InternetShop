@@ -1,12 +1,8 @@
 package com.internet.shop.model;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
-@Getter
-@Setter
-@ToString
+@Data
 public class Role {
     private Long id;
     private RoleName roleName;

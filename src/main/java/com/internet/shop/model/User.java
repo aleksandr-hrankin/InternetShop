@@ -21,7 +21,8 @@ public class User {
         this.roles = roles;
     }
 
-    public User(Long id, String name, String login, String password, Set<Role> roles, boolean deleted) {
+    public User(Long id, String name, String login,
+                String password, Set<Role> roles, boolean deleted) {
         this.id = id;
         this.name = name;
         this.login = login;
