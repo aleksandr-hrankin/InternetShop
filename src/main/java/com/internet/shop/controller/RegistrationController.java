@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class RegistrationController extends HttpServlet {
+    private static final String USER_ID = "user_id";
     private static final Injector injector = Injector.getInstance("com.internet.shop");
     private UserService userService =
             (UserService) injector.getInstance(UserService.class);
@@ -29,6 +30,9 @@ public class RegistrationController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+        if (req.getSession().getAttribute(USER_ID) != null) {
+            resp.sendRedirect("/");
+        }
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         String repeatPassword = req.getParameter("repeat-password");

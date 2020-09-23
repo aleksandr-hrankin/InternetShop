@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 public class LoginController extends HttpServlet {
     private static final String USER_ID = "user_id";
+    private static final String USER_ROLE = "user_roles";
     private static final Injector inject = Injector.getInstance("com.internet.shop");
     private AuthenticationService authenticationService
             = (AuthenticationService) inject.getInstance(AuthenticationService.class);
@@ -26,12 +27,16 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+        if (req.getSession().getAttribute(USER_ID) != null) {
+            resp.sendRedirect("/");
+        }
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         try {
             User user = authenticationService.login(login, password);
             HttpSession session = req.getSession();
             session.setAttribute(USER_ID, user.getId());
+            session.setAttribute(USER_ROLE, user.getRoles());
         } catch (AuthenticationException e) {
             req.setAttribute("errorMessage", e.getMessage());
             req.getRequestDispatcher("/WEB-INF/view/login.jsp").forward(req, resp);

@@ -33,7 +33,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputLogin1">Password</label>
-                                <input type="text" class="form-control" id="exampleInputLogin1" name="password" minlength="1">
+                                <input type="password" class="form-control" id="exampleInputLogin1" name="password" minlength="1">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Repeat Password</label>
