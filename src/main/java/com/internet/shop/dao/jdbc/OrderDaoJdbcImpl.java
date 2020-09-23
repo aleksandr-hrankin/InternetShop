@@ -69,7 +69,7 @@ public class OrderDaoJdbcImpl implements OrderDao {
                 + "FROM orders o \n"
                 + "JOIN orders_products USING (id_order)\n"
                 + "JOIN products p USING (id_product)\n"
-                + "WHERE o.id_order = ?, o.deleted = FALSE AND p.deleted = FALSE;";
+                + "WHERE o.id_order = ?, o.deleted = FALSE;";
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setLong(1, id);
@@ -91,7 +91,7 @@ public class OrderDaoJdbcImpl implements OrderDao {
                 + "FROM orders o \n"
                 + "JOIN orders_products USING (id_order)\n"
                 + "JOIN products p USING (id_product)\n"
-                + "WHERE o.deleted = FALSE AND p.deleted = FALSE;";
+                + "WHERE o.deleted = FALSE;";
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query,
                     ResultSet.TYPE_SCROLL_INSENSITIVE,

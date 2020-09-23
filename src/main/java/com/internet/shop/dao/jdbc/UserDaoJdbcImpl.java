@@ -70,7 +70,7 @@ public class UserDaoJdbcImpl implements UserDao {
                 + "FROM users u\n"
                 + "JOIN users_roles ur USING(id_user)\n"
                 + "JOIN roles r USING(id_role)\n"
-                + "WHERE u.id_user = ? AND deleted = FALSE;";
+                + "WHERE u.id_user = ? AND u.deleted = FALSE;";
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setLong(1, id);
@@ -114,7 +114,7 @@ public class UserDaoJdbcImpl implements UserDao {
     @Override
     public User update(User user) {
         String query = "UPDATE users SET name = ?, login = ?, password = ? "
-                + "WHERE id_user = ? AND deleted = FALSE;";
+                + "WHERE id_user = ?;";
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, user.getName());

@@ -55,7 +55,7 @@ public class ShoppingCartDaoJdbcImpl implements ShoppingCartDao {
                 + "FROM shopping_carts sc\n"
                 + "JOIN shopping_carts_products scp USING (id_shopping_cart)\n"
                 + "JOIN products p USING (id_product)\n"
-                + "WHERE sc.id_shopping_cart = ? AND sc.deleted = FALSE AND p.deleted = FALSE;";
+                + "WHERE sc.id_shopping_cart = ? AND sc.deleted = FALSE;";
         return getShoppingCartByQuery(query, id);
     }
 
@@ -66,7 +66,7 @@ public class ShoppingCartDaoJdbcImpl implements ShoppingCartDao {
                 + "FROM shopping_carts sc\n"
                 + "JOIN shopping_carts_products scp USING (id_shopping_cart)\n"
                 + "JOIN products p USING (id_product)\n"
-                + "WHERE sc.deleted = FALSE AND p.deleted = FALSE\n"
+                + "WHERE sc.deleted = FALSE\n"
                 + "ORDER BY id_shopping_cart;";
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query,
