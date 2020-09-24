@@ -9,7 +9,6 @@ public class ShoppingCart {
     private Long id;
     private Long userId;
     private List<Product> products;
-    private boolean deleted;
 
     public ShoppingCart() {
     }
@@ -19,10 +18,9 @@ public class ShoppingCart {
         this.products = new ArrayList<>();
     }
 
-    public ShoppingCart(Long id, Long userId, List<Product> products, boolean deleted) {
+    public ShoppingCart(Long id, Long userId, List<Product> products) {
         this.id = id;
         this.userId = userId;
         this.products = products;
-        this.deleted = deleted;
     }
 }

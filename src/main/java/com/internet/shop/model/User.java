@@ -10,7 +10,6 @@ public class User {
     private String login;
     private String password;
     private Set<Role> roles;
-    private boolean deleted;
 
     public User() {
     }
@@ -22,12 +21,11 @@ public class User {
     }
 
     public User(Long id, String name, String login,
-                String password, Set<Role> roles, boolean deleted) {
+                String password, Set<Role> roles) {
         this.id = id;
         this.name = name;
         this.login = login;
         this.password = password;
         this.roles = roles;
-        this.deleted = deleted;
     }
 }

@@ -12,8 +12,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -27,8 +29,8 @@ public class UserDaoJdbcImpl implements UserDao {
                 + "JOIN users_roles USING (id_user)\n"
                 + "JOIN roles r USING (id_role)\n"
                 + "WHERE u.login = ? AND deleted = FALSE;";
-        try (Connection connection = ConnectionUtil.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(query);
+        try (Connection connection = ConnectionUtil.getConnection();
+                 PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, login);
             ResultSet resultSet = statement.executeQuery();
             User user = null;
@@ -44,9 +46,9 @@ public class UserDaoJdbcImpl implements UserDao {
     @Override
     public User create(User user) {
         String query = "INSERT INTO users (name, login, password) VALUES (?, ?, ?);";
-        try (Connection connection = ConnectionUtil.getConnection()) {
-            PreparedStatement statement
-                    = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+        try (Connection connection = ConnectionUtil.getConnection();
+                 PreparedStatement statement
+                         = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, user.getName());
             statement.setString(2, user.getLogin());
             statement.setString(3, user.getPassword());
@@ -54,6 +56,7 @@ public class UserDaoJdbcImpl implements UserDao {
             ResultSet resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {
                 user.setId(resultSet.getLong(1));
+                statement.close();
                 addUsersRoles(user, connection);
             }
             return user;
@@ -71,8 +74,8 @@ public class UserDaoJdbcImpl implements UserDao {
                 + "JOIN users_roles ur USING(id_user)\n"
                 + "JOIN roles r USING(id_role)\n"
                 + "WHERE u.id_user = ? AND u.deleted = FALSE;";
-        try (Connection connection = ConnectionUtil.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(query);
+        try (Connection connection = ConnectionUtil.getConnection();
+                 PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             User user = null;
@@ -94,10 +97,10 @@ public class UserDaoJdbcImpl implements UserDao {
                 + "JOIN roles r USING(id_role)\n"
                 + "WHERE u.deleted = FALSE\n"
                 + "ORDER BY u.id_user;";
-        try (Connection connection = ConnectionUtil.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(query,
-                    ResultSet.TYPE_SCROLL_INSENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE);
+        try (Connection connection = ConnectionUtil.getConnection();
+                 PreparedStatement statement = connection.prepareStatement(query,
+                         ResultSet.TYPE_SCROLL_INSENSITIVE,
+                             ResultSet.CONCUR_READ_ONLY)) {
             ResultSet resultSet = statement.executeQuery();
             List<User> users = new ArrayList<>();
             while (resultSet.next()) {
@@ -114,14 +117,15 @@ public class UserDaoJdbcImpl implements UserDao {
     @Override
     public User update(User user) {
         String query = "UPDATE users SET name = ?, login = ?, password = ? "
-                + "WHERE id_user = ?;";
-        try (Connection connection = ConnectionUtil.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(query);
+                + "WHERE id_user = ? AND deleted = FALSE;";
+        try (Connection connection = ConnectionUtil.getConnection();
+                 PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, user.getName());
             statement.setString(2, user.getLogin());
             statement.setString(3, user.getPassword());
             statement.setLong(4, user.getId());
             statement.executeUpdate();
+            statement.close();
             deleteUsersRoles(user.getId(), connection);
             addUsersRoles(user, connection);
             return user;
@@ -133,11 +137,10 @@ public class UserDaoJdbcImpl implements UserDao {
     @Override
     public boolean delete(Long id) {
         String query = "UPDATE users SET deleted = TRUE WHERE id_user = ?;";
-        try (Connection connection = ConnectionUtil.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(query);
+        try (Connection connection = ConnectionUtil.getConnection();
+                PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, id);
             statement.executeUpdate();
-            deleteUsersRoles(id, connection);
             return true;
         } catch (SQLException e) {
             throw new DataProcessingException("Failed to delete user with id " + id, e);
@@ -149,20 +152,20 @@ public class UserDaoJdbcImpl implements UserDao {
         String name = resultSet.getString("name");
         String login = resultSet.getString("login");
         String password = resultSet.getString("password");
-        boolean deleted = resultSet.getBoolean("deleted");
         Set<Role> roles = new HashSet<>();
         do {
             roles.add(Role.of(resultSet.getString("role_name")));
         } while (resultSet.next() && id == resultSet.getLong("id_user"));
-        return new User(id, name, login, password, roles, deleted);
+        return new User(id, name, login, password, roles);
     }
 
     private void addUsersRoles(User user, Connection connection) throws SQLException {
         String query = "INSERT INTO users_roles (id_user, id_role) VALUES (?, ?);";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, user.getId());
+            Map<Role, Long> roles = getRolesFromDb();
             for (Role role : user.getRoles()) {
-                statement.setLong(2, role.getRoleName().ordinal() + 1);
+                statement.setLong(2, roles.get(role));
                 statement.executeUpdate();
             }
         }
@@ -173,6 +176,23 @@ public class UserDaoJdbcImpl implements UserDao {
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, id);
             statement.executeUpdate();
+        }
+    }
+
+    private Map<Role, Long> getRolesFromDb() {
+        String query = "SELECT * FROM ROLES;";
+        try (Connection connection = ConnectionUtil.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+            Map<Role, Long> roles = new HashMap<>();
+            while (resultSet.next()) {
+                Long roleId = resultSet.getLong("id_role");
+                String roleName = resultSet.getString("name");
+                roles.put(Role.of(roleName), roleId);
+            }
+            return roles;
+        } catch (SQLException e) {
+            throw new DataProcessingException("Failed to get roles from database", e);
         }
     }
 }

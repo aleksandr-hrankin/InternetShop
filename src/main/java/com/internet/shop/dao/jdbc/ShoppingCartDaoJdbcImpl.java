@@ -19,8 +19,8 @@ import java.util.Optional;
 public class ShoppingCartDaoJdbcImpl implements ShoppingCartDao {
     @Override
     public Optional<ShoppingCart> getByUserId(Long userId) {
-        String query = "SELECT sp.id_shopping_cart, sp.id_user, sp.deleted cart_deleted, "
-                + "p.id_product, p.name product_name, p.price, p.deleted product_deleted\n"
+        String query = "SELECT sp.id_shopping_cart, sp.id_user, "
+                + "p.id_product, p.name product_name, p.price\n"
                 + "FROM shopping_carts sp\n"
                 + "LEFT JOIN shopping_carts_products USING (id_shopping_cart)\n"
                 + "LEFT JOIN products p USING (id_product)\n"
@@ -31,14 +31,15 @@ public class ShoppingCartDaoJdbcImpl implements ShoppingCartDao {
     @Override
     public ShoppingCart create(ShoppingCart cart) {
         String query = "INSERT INTO shopping_carts (id_user) VALUES (?);";
-        try (Connection connection = ConnectionUtil.getConnection()) {
-            PreparedStatement statement
-                    = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+        try (Connection connection = ConnectionUtil.getConnection();
+                PreparedStatement statement
+                        = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             statement.setLong(1, cart.getUserId());
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {
                 cart.setId(resultSet.getLong(1));
+                statement.close();
                 addShoppingCartsProducts(cart, connection);
             }
             return cart;
@@ -50,8 +51,8 @@ public class ShoppingCartDaoJdbcImpl implements ShoppingCartDao {
 
     @Override
     public Optional<ShoppingCart> get(Long id) {
-        String query = "SELECT sc.id_shopping_cart, sc.id_user, sc.deleted cart_deleted, "
-                + "p.id_product, p.name product_name, p.price, p.deleted product_deleted\n"
+        String query = "SELECT sc.id_shopping_cart, sc.id_user, "
+                + "p.id_product, p.name product_name, p.price\n"
                 + "FROM shopping_carts sc\n"
                 + "JOIN shopping_carts_products scp USING (id_shopping_cart)\n"
                 + "JOIN products p USING (id_product)\n"
@@ -61,17 +62,17 @@ public class ShoppingCartDaoJdbcImpl implements ShoppingCartDao {
 
     @Override
     public List<ShoppingCart> getAll() {
-        String query = "SELECT sc.id_shopping_cart, sc.id_user, sc.deleted cart_deleted, "
-                + "p.id_product, p.name product_name, p.price, p.deleted product_deleted\n"
+        String query = "SELECT sc.id_shopping_cart, sc.id_user, "
+                + "p.id_product, p.name product_name, p.price\n"
                 + "FROM shopping_carts sc\n"
                 + "JOIN shopping_carts_products scp USING (id_shopping_cart)\n"
                 + "JOIN products p USING (id_product)\n"
                 + "WHERE sc.deleted = FALSE\n"
-                + "ORDER BY id_shopping_cart;";
-        try (Connection connection = ConnectionUtil.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(query,
-                    ResultSet.TYPE_SCROLL_INSENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE);
+                + "ORDER BY sc.id_shopping_cart;";
+        try (Connection connection = ConnectionUtil.getConnection();
+                 PreparedStatement statement = connection.prepareStatement(query,
+                         ResultSet.TYPE_SCROLL_INSENSITIVE,
+                             ResultSet.CONCUR_READ_ONLY)) {
             ResultSet resultSet = statement.executeQuery();
             List<ShoppingCart> shoppingCarts = new ArrayList<>();
             while (resultSet.next()) {
@@ -87,14 +88,14 @@ public class ShoppingCartDaoJdbcImpl implements ShoppingCartDao {
 
     @Override
     public ShoppingCart update(ShoppingCart cart) {
-        String query = "UPDATE shopping_carts SET id_user = ?, deleted = ? "
-                + "WHERE id_shopping_cart = ?;";
-        try (Connection connection = ConnectionUtil.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(query);
+        String query = "UPDATE shopping_carts SET id_user = ? "
+                + "WHERE id_shopping_cart = ? AND deleted = FALSE;";
+        try (Connection connection = ConnectionUtil.getConnection();
+                 PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, cart.getUserId());
-            statement.setBoolean(2, cart.isDeleted());
-            statement.setLong(3, cart.getId());
+            statement.setLong(2, cart.getId());
             statement.executeUpdate();
+            statement.close();
             deleteShoppingCartsProducts(cart.getId(), connection);
             addShoppingCartsProducts(cart, connection);
             return cart;
@@ -107,10 +108,11 @@ public class ShoppingCartDaoJdbcImpl implements ShoppingCartDao {
     @Override
     public boolean delete(Long id) {
         String query = "UPDATE shopping_carts SET deleted = TRUE WHERE id_shopping_cart = ?;";
-        try (Connection connection = ConnectionUtil.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(query);
+        try (Connection connection = ConnectionUtil.getConnection();
+                 PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, id);
             statement.executeUpdate();
+            statement.close();
             deleteShoppingCartsProducts(id, connection);
             return true;
         } catch (SQLException e) {
@@ -121,18 +123,16 @@ public class ShoppingCartDaoJdbcImpl implements ShoppingCartDao {
     private ShoppingCart getShoppingCartFromResultSet(ResultSet resultSet) throws SQLException {
         Long cartId = resultSet.getLong("id_shopping_cart");
         Long userId = resultSet.getLong("id_user");
-        boolean cartDeleted = resultSet.getBoolean("cart_deleted");
         List<Product> products = new ArrayList<>();
-        if (resultSet.getLong("id_product") != 0) {
+        if (resultSet.getObject("id_product", Long.class) != null) {
             do {
                 Long productId = resultSet.getLong("id_product");
                 String name = resultSet.getString("product_name");
                 double price = resultSet.getDouble("price");
-                boolean productDeleted = resultSet.getBoolean("product_deleted");
-                products.add(new Product(productId, name, price, productDeleted));
+                products.add(new Product(productId, name, price));
             } while (resultSet.next() && cartId == resultSet.getLong("id_shopping_cart"));
         }
-        return new ShoppingCart(cartId, userId, products, cartDeleted);
+        return new ShoppingCart(cartId, userId, products);
     }
 
     private void addShoppingCartsProducts(ShoppingCart cart, Connection connection)

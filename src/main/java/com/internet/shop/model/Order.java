@@ -9,7 +9,6 @@ public class Order {
     private Long id;
     private Long userId;
     private List<Product> products;
-    private boolean deleted;
 
     public Order() {
     }
@@ -19,10 +18,9 @@ public class Order {
         this.products = new ArrayList<>();
     }
 
-    public Order(Long id, Long userId, List<Product> products, boolean deleted) {
+    public Order(Long id, Long userId, List<Product> products) {
         this.id = id;
         this.userId = userId;
         this.products = products;
-        this.deleted = deleted;
     }
 }
