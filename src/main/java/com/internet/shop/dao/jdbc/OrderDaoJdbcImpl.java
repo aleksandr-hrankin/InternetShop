@@ -24,7 +24,8 @@ public class OrderDaoJdbcImpl implements OrderDao {
                 + "FROM orders o\n"
                 + "JOIN orders_products op USING (id_order)\n"
                 + "JOIN products p USING (id_product)\n"
-                + "WHERE o.id_user = ? AND o.deleted = FALSE;";
+                + "WHERE o.id_user = ? AND o.deleted = FALSE"
+                + "ORDER BY o.id_order;";
         try (Connection connection = ConnectionUtil.getConnection();
                  PreparedStatement statement = connection.prepareStatement(query,
                          ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -135,8 +136,7 @@ public class OrderDaoJdbcImpl implements OrderDao {
         try (Connection connection = ConnectionUtil.getConnection();
                  PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, id);
-            statement.executeUpdate();
-            return true;
+            return statement.executeUpdate() > 0;
         } catch (SQLException e) {
             throw new DataProcessingException("Failed to delete order with id " + id, e);
         }

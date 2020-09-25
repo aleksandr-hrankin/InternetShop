@@ -24,7 +24,7 @@ public class UserDaoJdbcImpl implements UserDao {
     @Override
     public Optional<User> findByLogin(String login) {
         String query = "SELECT u.id_user, u.name, u.login, u.password, "
-                + "u.deleted, r.name role_name\n"
+                + "r.id_role, r.name role_name\n"
                 + "FROM users u\n"
                 + "JOIN users_roles USING (id_user)\n"
                 + "JOIN roles r USING (id_role)\n"
@@ -69,7 +69,7 @@ public class UserDaoJdbcImpl implements UserDao {
     @Override
     public Optional<User> get(Long id) {
         String query = "SELECT u.id_user, u.name, u.login, u.password, "
-                + "u.deleted, r.name role_name\n"
+                + "r.id_role, r.name role_name\n"
                 + "FROM users u\n"
                 + "JOIN users_roles ur USING(id_user)\n"
                 + "JOIN roles r USING(id_role)\n"
@@ -91,7 +91,7 @@ public class UserDaoJdbcImpl implements UserDao {
     @Override
     public List<User> getAll() {
         String query = "SELECT u.id_user, u.name, u.login, u.password, "
-                + "u.deleted, r.name role_name\n"
+                + "r.id_role, r.name role_name\n"
                 + "FROM users u\n"
                 + "JOIN users_roles ur USING(id_user)\n"
                 + "JOIN roles r USING(id_role)\n"
@@ -140,32 +140,33 @@ public class UserDaoJdbcImpl implements UserDao {
         try (Connection connection = ConnectionUtil.getConnection();
                 PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, id);
-            statement.executeUpdate();
-            return true;
+            return statement.executeUpdate() > 0;
         } catch (SQLException e) {
             throw new DataProcessingException("Failed to delete user with id " + id, e);
         }
     }
 
     private User getUserFromResultSet(ResultSet resultSet) throws SQLException {
-        Long id = resultSet.getLong("id_user");
+        Long userId = resultSet.getLong("id_user");
         String name = resultSet.getString("name");
         String login = resultSet.getString("login");
         String password = resultSet.getString("password");
         Set<Role> roles = new HashSet<>();
         do {
-            roles.add(Role.of(resultSet.getString("role_name")));
-        } while (resultSet.next() && id == resultSet.getLong("id_user"));
-        return new User(id, name, login, password, roles);
+            Long roleId = resultSet.getLong("id_role");
+            String roleName = resultSet.getString("role_name");
+            roles.add(Role.of(roleId, roleName));
+        } while (resultSet.next() && userId == resultSet.getLong("id_user"));
+        return new User(userId, name, login, password, roles);
     }
 
     private void addUsersRoles(User user, Connection connection) throws SQLException {
         String query = "INSERT INTO users_roles (id_user, id_role) VALUES (?, ?);";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, user.getId());
-            Map<Role, Long> roles = getRolesFromDb();
+            Map<Role.RoleName, Long> roles = getRolesFromDb();
             for (Role role : user.getRoles()) {
-                statement.setLong(2, roles.get(role));
+                statement.setLong(2, roles.get(role.getRoleName()));
                 statement.executeUpdate();
             }
         }
@@ -179,16 +180,16 @@ public class UserDaoJdbcImpl implements UserDao {
         }
     }
 
-    private Map<Role, Long> getRolesFromDb() {
+    private Map<Role.RoleName, Long> getRolesFromDb() {
         String query = "SELECT * FROM ROLES;";
-        try (Connection connection = ConnectionUtil.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(query);
+        try (Connection connection = ConnectionUtil.getConnection();
+                PreparedStatement statement = connection.prepareStatement(query)) {
             ResultSet resultSet = statement.executeQuery();
-            Map<Role, Long> roles = new HashMap<>();
+            Map<Role.RoleName, Long> roles = new HashMap<>();
             while (resultSet.next()) {
                 Long roleId = resultSet.getLong("id_role");
                 String roleName = resultSet.getString("name");
-                roles.put(Role.of(roleName), roleId);
+                roles.put(Role.RoleName.valueOf(roleName), roleId);
             }
             return roles;
         } catch (SQLException e) {
