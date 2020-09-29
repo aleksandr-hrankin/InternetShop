@@ -28,7 +28,7 @@ public class LoginController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         if (req.getSession().getAttribute(USER_ID) != null) {
-            resp.sendRedirect("/");
+            resp.sendRedirect(req.getContextPath() + "/");
         }
         String login = req.getParameter("login");
         String password = req.getParameter("password");

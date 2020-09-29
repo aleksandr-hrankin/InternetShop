@@ -24,7 +24,7 @@ public class UserDaoJdbcImpl implements UserDao {
     @Override
     public Optional<User> findByLogin(String login) {
         String query = "SELECT u.id_user, u.name, u.login, u.password, "
-                + "r.id_role, r.name role_name\n"
+                + "u.salt, r.id_role, r.name role_name\n"
                 + "FROM users u\n"
                 + "JOIN users_roles USING (id_user)\n"
                 + "JOIN roles r USING (id_role)\n"
@@ -45,13 +45,14 @@ public class UserDaoJdbcImpl implements UserDao {
 
     @Override
     public User create(User user) {
-        String query = "INSERT INTO users (name, login, password) VALUES (?, ?, ?);";
+        String query = "INSERT INTO users (name, login, password, salt) VALUES (?, ?, ?, ?);";
         try (Connection connection = ConnectionUtil.getConnection();
                  PreparedStatement statement
                          = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, user.getName());
             statement.setString(2, user.getLogin());
             statement.setString(3, user.getPassword());
+            statement.setBytes(4, user.getSalt());
             statement.executeUpdate();
             ResultSet resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {
@@ -69,7 +70,7 @@ public class UserDaoJdbcImpl implements UserDao {
     @Override
     public Optional<User> get(Long id) {
         String query = "SELECT u.id_user, u.name, u.login, u.password, "
-                + "r.id_role, r.name role_name\n"
+                + "u.salt, r.id_role, r.name role_name\n"
                 + "FROM users u\n"
                 + "JOIN users_roles ur USING(id_user)\n"
                 + "JOIN roles r USING(id_role)\n"
@@ -91,7 +92,7 @@ public class UserDaoJdbcImpl implements UserDao {
     @Override
     public List<User> getAll() {
         String query = "SELECT u.id_user, u.name, u.login, u.password, "
-                + "r.id_role, r.name role_name\n"
+                + "u.salt, r.id_role, r.name role_name\n"
                 + "FROM users u\n"
                 + "JOIN users_roles ur USING(id_user)\n"
                 + "JOIN roles r USING(id_role)\n"
@@ -116,14 +117,15 @@ public class UserDaoJdbcImpl implements UserDao {
 
     @Override
     public User update(User user) {
-        String query = "UPDATE users SET name = ?, login = ?, password = ? "
+        String query = "UPDATE users SET name = ?, login = ?, password = ?, salt = ? "
                 + "WHERE id_user = ? AND deleted = FALSE;";
         try (Connection connection = ConnectionUtil.getConnection();
                  PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, user.getName());
             statement.setString(2, user.getLogin());
             statement.setString(3, user.getPassword());
-            statement.setLong(4, user.getId());
+            statement.setBytes(4, user.getSalt());
+            statement.setLong(5, user.getId());
             statement.executeUpdate();
             statement.close();
             deleteUsersRoles(user.getId(), connection);
@@ -151,13 +153,14 @@ public class UserDaoJdbcImpl implements UserDao {
         String name = resultSet.getString("name");
         String login = resultSet.getString("login");
         String password = resultSet.getString("password");
+        byte[] salt = resultSet.getBytes("salt");
         Set<Role> roles = new HashSet<>();
         do {
             Long roleId = resultSet.getLong("id_role");
             String roleName = resultSet.getString("role_name");
             roles.add(Role.of(roleId, roleName));
         } while (resultSet.next() && userId == resultSet.getLong("id_user"));
-        return new User(userId, name, login, password, roles);
+        return new User(userId, name, login, password, salt, roles);
     }
 
     private void addUsersRoles(User user, Connection connection) throws SQLException {

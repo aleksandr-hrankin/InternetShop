@@ -13,7 +13,8 @@ CREATE TABLE `internet_shop`.`users` (
   `id_user` BIGINT(11) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(225) NULL,
   `login` VARCHAR(45) NULL,
-  `password` VARCHAR(45) NULL,
+  `password` VARCHAR(225) NULL,
+  `salt` BLOB NULL,
   `deleted` TINYINT NOT NULL DEFAULT 0,
   PRIMARY KEY (`id_user`))
 ENGINE = InnoDB
