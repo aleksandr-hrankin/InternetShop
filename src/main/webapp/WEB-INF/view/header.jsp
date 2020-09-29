@@ -12,7 +12,7 @@
 <header class="page-header">
     <div class="container">
         <nav class="navbar navbar-expand-xl navbar-light bg-white">
-            <a class="navbar-brand pl-5" href="${pageContext.request.contextPath}/inject-data">
+            <a class="navbar-brand pl-5" href="#">
                 <i class="fas fa-box"> Shop</i>
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -25,6 +25,11 @@
                     <li class="nav-item">
                         <a class="nav-link pr-4" href="${pageContext.request.contextPath}/">
                             <i class="fas fa-home"> Home</i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link pr-4" href="${pageContext.request.contextPath}/products/all">
+                            <i class="fas fa-carrot"> Products</i>
                         </a>
                     </li>
                     <c:if test="${not empty sessionScope.user_id}">
@@ -40,12 +45,10 @@
                                             <a class="dropdown-item"
                                                href="${pageContext.request.contextPath}/admin/products">Products</a>
                                             <a class="dropdown-item"
-                                               href="${pageContext.request.contextPath}/users/all">Users</a>
-                                            <a class="dropdown-item"
                                                href="${pageContext.request.contextPath}/orders/all">Orders</a>
                                             <div class="dropdown-divider"></div>
                                             <a class="dropdown-item"
-                                               href="${pageContext.request.contextPath}/inject-data">Inject</a>
+                                               href="${pageContext.request.contextPath}/users/all">Users</a>
                                         </div>
                                     </li>
                                 </c:when>
@@ -64,19 +67,14 @@
                             </c:choose>
                         </c:forEach>
                     </c:if>
-                    <li class="nav-item">
-                        <a class="nav-link pr-4" href="${pageContext.request.contextPath}/products/all">
-                            <i class="fas fa-carrot"> Products</i>
-                        </a>
-                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link pr-4" href="#" id="navbarDropdownInfo" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-ellipsis-v"> More <i class="fas fa-caret-down"></i></i>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownInfo">
-                            <a class="dropdown-item" href="${pageContext.request.contextPath}/users/all">Contact</a>
-                            <a class="dropdown-item" href="${pageContext.request.contextPath}/orders/all">About Us</a>
+                            <a class="dropdown-item" href="#">Contact</a>
+                            <a class="dropdown-item" href="#">About Us</a>
                         </div>
                     </li>
                     <c:choose>

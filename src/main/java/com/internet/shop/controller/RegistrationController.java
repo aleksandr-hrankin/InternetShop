@@ -38,11 +38,9 @@ public class RegistrationController extends HttpServlet {
         String repeatPassword = req.getParameter("repeat-password");
 
         if (password.equals(repeatPassword)) {
-            User user = new User(login, password);
-            user.setRoles(Set.of(Role.of("USER")));
+            User user = new User(login, password, Set.of(Role.of("USER")));
             userService.create(user);
-            ShoppingCart shoppingCart = new ShoppingCart(user.getId());
-            shoppingCartService.create(shoppingCart);
+            shoppingCartService.create(new ShoppingCart(user.getId()));
             resp.sendRedirect(req.getContextPath() + "/login");
         } else {
             req.setAttribute("errorMessage", "Your password and repeat password aren't the same.");

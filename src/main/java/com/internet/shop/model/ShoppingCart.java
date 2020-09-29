@@ -7,11 +7,20 @@ import lombok.Data;
 @Data
 public class ShoppingCart {
     private Long id;
-    private List<Product> products;
     private Long userId;
+    private List<Product> products;
+
+    public ShoppingCart() {
+    }
 
     public ShoppingCart(Long userId) {
-        this.products = new ArrayList<>();
         this.userId = userId;
+        this.products = new ArrayList<>();
+    }
+
+    public ShoppingCart(Long id, Long userId, List<Product> products) {
+        this.id = id;
+        this.userId = userId;
+        this.products = products;
     }
 }
