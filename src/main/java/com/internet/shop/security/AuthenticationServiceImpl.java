@@ -18,8 +18,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         Optional<User> optionalUser = userService.findByLogin(login);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            password = HashUtil.hashPassword(password, user.getSalt());
-            if (user.getPassword().equals(password)) {
+            String hashPassword = HashUtil.hashPassword(password, user.getSalt());
+            if (user.getPassword().equals(hashPassword)) {
                 return optionalUser.get();
             }
         }

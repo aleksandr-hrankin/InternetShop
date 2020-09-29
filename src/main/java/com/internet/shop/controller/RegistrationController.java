@@ -41,8 +41,7 @@ public class RegistrationController extends HttpServlet {
         if (password.equals(repeatPassword)) {
             User user = new User();
             user.setLogin(login);
-            user.setSalt(HashUtil.getSalt());
-            user.setPassword(HashUtil.hashPassword(password, user.getSalt()));
+            user.setPassword(password);
             user.setRoles(Set.of(Role.of("USER")));
 
             userService.create(user);

@@ -24,8 +24,8 @@ public class OrderDaoJdbcImpl implements OrderDao {
                 + "FROM orders o\n"
                 + "JOIN orders_products op USING (id_order)\n"
                 + "JOIN products p USING (id_product)\n"
-                + "WHERE o.id_user = ? AND o.deleted = FALSE"
-                + "ORDER BY o.id_order;";
+                + "WHERE o.id_user = ? AND o.deleted = FALSE "
+                + "ORDER BY id_order;";
         try (Connection connection = ConnectionUtil.getConnection();
                  PreparedStatement statement = connection.prepareStatement(query,
                          ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -71,7 +71,7 @@ public class OrderDaoJdbcImpl implements OrderDao {
                 + "FROM orders o \n"
                 + "JOIN orders_products USING (id_order)\n"
                 + "JOIN products p USING (id_product)\n"
-                + "WHERE o.id_order = ?, o.deleted = FALSE;";
+                + "WHERE id_order = ?, o.deleted = FALSE;";
         try (Connection connection = ConnectionUtil.getConnection();
                  PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, id);
@@ -93,8 +93,8 @@ public class OrderDaoJdbcImpl implements OrderDao {
                 + "FROM orders o \n"
                 + "JOIN orders_products USING (id_order)\n"
                 + "JOIN products p USING (id_product)\n"
-                + "WHERE o.deleted = FALSE"
-                + "ORDER BY o.id_order;";
+                + "WHERE o.deleted = FALSE "
+                + "ORDER BY id_order;";
         try (Connection connection = ConnectionUtil.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(query,
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
