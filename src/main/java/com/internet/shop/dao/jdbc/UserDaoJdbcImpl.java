@@ -160,7 +160,7 @@ public class UserDaoJdbcImpl implements UserDao {
             String roleName = resultSet.getString("role_name");
             roles.add(Role.of(roleId, roleName));
         } while (resultSet.next() && userId == resultSet.getLong("id_user"));
-        return new User(userId, name, login, password, roles);
+        return new User(userId, name, login, password, salt, roles);
     }
 
     private void addUsersRoles(User user, Connection connection) throws SQLException {
