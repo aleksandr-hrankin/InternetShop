@@ -30,9 +30,9 @@ One user can have multiple roles.<br>
 2) *Download and install* servlet container (for example Apache [Tomcat](https://tomcat.apache.org/download-90.cgi, "Download Tomcat"))<br>
 3) *Download and install* [MySQL Server](https://dev.mysql.com/downloads/)<br>
 + Setup new connection with<br>
-  + user: <your username><br>
-  + password: <yout password><br>
-  + url: jdbc:mysql://<your ip>:<your port>/<your name db>?useUnicode=true&serverTimezone=UTC<br>
+  + user: *"your username"*<br>
+  + password: *"your password"*<br>
+  + url: jdbc:mysql://*"your host name"*:*"your port"*/*"your name db"*?useUnicode=true&serverTimezone=UTC<br>
 + Create schema internet_shop<br>
 + Create tables using commands from init_db.sql under the path src/main/resources/<br>
 
