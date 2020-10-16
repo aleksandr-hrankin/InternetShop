@@ -1,4 +1,4 @@
-# InternetShop
+# internet-shop
 Internet-shop with basic operations. 
 
 In this project used N-tier architecture with DB layer, DAO layer, Service layer, Controllers layer and View layer.<br>
