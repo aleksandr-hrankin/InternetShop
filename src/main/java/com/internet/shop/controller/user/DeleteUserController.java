@@ -2,8 +2,8 @@ package com.internet.shop.controller.user;
 
 import com.internet.shop.lib.Injector;
 import com.internet.shop.model.ShoppingCart;
-import com.internet.shop.service.interfaces.ShoppingCartService;
-import com.internet.shop.service.interfaces.UserService;
+import com.internet.shop.service.ShoppingCartService;
+import com.internet.shop.service.UserService;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

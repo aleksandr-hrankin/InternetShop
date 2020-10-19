@@ -1,6 +1,6 @@
-package com.internet.shop.dao.jdbc;
+package com.internet.shop.dao.impl;
 
-import com.internet.shop.dao.interfaces.UserDao;
+import com.internet.shop.dao.UserDao;
 import com.internet.shop.exception.DataProcessingException;
 import com.internet.shop.lib.Dao;
 import com.internet.shop.model.Role;
@@ -30,7 +30,7 @@ public class UserDaoJdbcImpl implements UserDao {
                 + "JOIN roles r USING (id_role)\n"
                 + "WHERE u.login = ? AND deleted = FALSE;";
         try (Connection connection = ConnectionUtil.getConnection();
-                 PreparedStatement statement = connection.prepareStatement(query)) {
+                PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, login);
             ResultSet resultSet = statement.executeQuery();
             User user = null;

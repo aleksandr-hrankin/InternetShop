@@ -1,7 +1,6 @@
-package com.internet.shop.service.interfaces;
+package com.internet.shop.service;
 
 import com.internet.shop.model.User;
-import com.internet.shop.service.GenericService;
 import java.util.Optional;
 
 public interface UserService extends GenericService<User, Long> {

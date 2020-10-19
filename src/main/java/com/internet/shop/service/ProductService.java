@@ -1,7 +1,6 @@
-package com.internet.shop.service.interfaces;
+package com.internet.shop.service;
 
 import com.internet.shop.model.Product;
-import com.internet.shop.service.GenericService;
 
 public interface ProductService extends GenericService<Product, Long> {
 }

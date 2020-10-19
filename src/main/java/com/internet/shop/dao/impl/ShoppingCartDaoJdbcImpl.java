@@ -1,6 +1,6 @@
-package com.internet.shop.dao.jdbc;
+package com.internet.shop.dao.impl;
 
-import com.internet.shop.dao.interfaces.ShoppingCartDao;
+import com.internet.shop.dao.ShoppingCartDao;
 import com.internet.shop.exception.DataProcessingException;
 import com.internet.shop.lib.Dao;
 import com.internet.shop.model.Product;
@@ -32,7 +32,7 @@ public class ShoppingCartDaoJdbcImpl implements ShoppingCartDao {
     public ShoppingCart create(ShoppingCart cart) {
         String query = "INSERT INTO shopping_carts (id_user) VALUES (?);";
         try (Connection connection = ConnectionUtil.getConnection();
-                PreparedStatement statement
+                 PreparedStatement statement
                         = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             statement.setLong(1, cart.getUserId());
             statement.executeUpdate();

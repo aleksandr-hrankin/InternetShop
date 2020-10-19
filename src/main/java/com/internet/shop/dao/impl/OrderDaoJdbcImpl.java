@@ -1,6 +1,6 @@
-package com.internet.shop.dao.jdbc;
+package com.internet.shop.dao.impl;
 
-import com.internet.shop.dao.interfaces.OrderDao;
+import com.internet.shop.dao.OrderDao;
 import com.internet.shop.exception.DataProcessingException;
 import com.internet.shop.lib.Dao;
 import com.internet.shop.model.Order;
