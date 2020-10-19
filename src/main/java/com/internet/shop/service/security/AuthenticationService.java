@@ -1,4 +1,4 @@
-package com.internet.shop.security;
+package com.internet.shop.service.security;
 
 import com.internet.shop.exception.AuthenticationException;
 import com.internet.shop.model.User;

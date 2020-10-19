@@ -3,7 +3,7 @@ package com.internet.shop.controller;
 import com.internet.shop.exception.AuthenticationException;
 import com.internet.shop.lib.Injector;
 import com.internet.shop.model.User;
-import com.internet.shop.security.AuthenticationService;
+import com.internet.shop.service.security.AuthenticationService;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

@@ -1,8 +1,7 @@
-package com.internet.shop.service.interfaces;
+package com.internet.shop.service;
 
 import com.internet.shop.model.Order;
 import com.internet.shop.model.ShoppingCart;
-import com.internet.shop.service.GenericService;
 import java.util.List;
 
 public interface OrderService extends GenericService<Order, Long> {

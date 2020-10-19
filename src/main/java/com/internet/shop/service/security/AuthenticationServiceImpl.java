@@ -1,10 +1,10 @@
-package com.internet.shop.security;
+package com.internet.shop.service.security;
 
 import com.internet.shop.exception.AuthenticationException;
 import com.internet.shop.lib.Inject;
 import com.internet.shop.lib.Service;
 import com.internet.shop.model.User;
-import com.internet.shop.service.interfaces.UserService;
+import com.internet.shop.service.UserService;
 import com.internet.shop.util.HashUtil;
 import java.util.Optional;
 

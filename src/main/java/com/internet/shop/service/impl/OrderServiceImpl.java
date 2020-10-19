@@ -5,8 +5,8 @@ import com.internet.shop.lib.Inject;
 import com.internet.shop.lib.Service;
 import com.internet.shop.model.Order;
 import com.internet.shop.model.ShoppingCart;
-import com.internet.shop.service.interfaces.OrderService;
-import com.internet.shop.service.interfaces.ShoppingCartService;
+import com.internet.shop.service.OrderService;
+import com.internet.shop.service.ShoppingCartService;
 import java.util.List;
 
 @Service

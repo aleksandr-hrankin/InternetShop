@@ -1,9 +1,9 @@
-package com.internet.shop.web.filter;
+package com.internet.shop.filter;
 
 import com.internet.shop.lib.Injector;
 import com.internet.shop.model.Role;
 import com.internet.shop.model.User;
-import com.internet.shop.service.interfaces.UserService;
+import com.internet.shop.service.UserService;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;

@@ -2,7 +2,7 @@ package com.internet.shop.controller.product;
 
 import com.internet.shop.lib.Injector;
 import com.internet.shop.model.Product;
-import com.internet.shop.service.interfaces.ProductService;
+import com.internet.shop.service.ProductService;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.ServletException;
