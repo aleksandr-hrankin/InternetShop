@@ -26,6 +26,8 @@ One user can have multiple roles.<br>
 **database:** MySQL<br>
 
 # To start the project you need:<br>
+The project uses a lombok plugin.
+
 1) *Download and install* the [JDK](https://www.oracle.com/java/technologies/javase-downloads.html, "Download JDK") <br>
 2) *Download and install* servlet container (for example Apache [Tomcat](https://tomcat.apache.org/download-90.cgi, "Download Tomcat"))<br>
 3) *Download and install* [MySQL Server](https://dev.mysql.com/downloads/)<br>
