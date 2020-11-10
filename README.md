@@ -4,11 +4,11 @@ Internet-shop with basic operations.
 In this project used N-tier architecture with DB layer, DAO layer, Service layer, Controllers layer and View layer. <br>
 Project was developed according to SOLID principles with authorization and authentication by RBAC filter strategy.
 
-#### UML diagram that describes the relationship between the entities.
-<img src="https://github.com/aleksandr-hrankin/pictures/blob/main/project_internet-shop-uml.png" alt="project_internet_shop_uml" width="520"/>
-
 #### Diagram that describes the structure of the project
 <img src="https://github.com/aleksandr-hrankin/pictures/blob/main/project_internet_shop_structure_diagram.png" alt="project_internet_shop_structure_diagram" width="520"/>
+
+#### UML diagram that describes the relationship between the entities.
+<img src="https://github.com/aleksandr-hrankin/pictures/blob/main/project_internet-shop-uml.png" alt="project_internet_shop_uml" width="520"/>
 
 One user can have multiple roles. <br>
 ##### No role: <br>
